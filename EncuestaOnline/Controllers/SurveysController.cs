@@ -40,7 +40,14 @@ namespace EncuestaOnline.Controllers
         {
             try
             {
-                model.UserId = "dkddk";
+
+                if (Session["User"] != null)
+                {
+                    var usuario = (Users)Session["User"];
+                    var idUser = usuario.id;
+                    model.UserId = idUser.ToString();
+                }
+
                 _encuestaContext.Surveys.Add(model);
                 _encuestaContext.SaveChanges();
 
