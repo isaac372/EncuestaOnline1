@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="de438c49b2f0497a9bb91e3445e1c642" Name="Diagram1">
+        <EntityTypeShape EntityType="EncuestaModel.FilledSurveys" Width="1.5" PointX="2.75" PointY="4" />
+        <EntityTypeShape EntityType="EncuestaModel.Options" Width="1.5" PointX="5" PointY="2.75" />
+        <EntityTypeShape EntityType="EncuestaModel.Questions" Width="1.5" PointX="2.75" PointY="1.375" />
+        <EntityTypeShape EntityType="EncuestaModel.Surveys" Width="1.5" PointX="0.5" PointY="2.625" />
+        <EntityTypeShape EntityType="EncuestaModel.Users" Width="1.5" PointX="5.5" PointY="6" />
+        <AssociationConnector Association="EncuestaModel.FK_FilledSurveys_Surveys_SurveyId" />
+        <AssociationConnector Association="EncuestaModel.FK_Options_Questions_QuestionId" />
+        <AssociationConnector Association="EncuestaModel.FK_Questions_Surveys_SurveyId" />
+        <AssociationConnector Association="EncuestaModel.FilledSurveyOption" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,41 @@
+﻿
+@model Tuple<EncuestaOnline.Models.Surveys, EncuestaOnline.Models.FilledSurveys>
+
+@{
+    ViewData["Title"] = "Answer the Survey";
+}
+
+<div class="container w-50">
+    <h3 class="mb-2" style="font-size: 1.5rem">Survey: @Model.Item1.Title</h3>
+
+    <form method="post">
+        <input type="hidden" name="SurveyId" id="SurveyId" value="@Model.Item1.Id" />
+        <div class="form-group">
+            <label for="exampleInputEmail1">Dirección de correo electrónico</label>
+            <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter email" id="Email" name="Email">
+            <small id="emailHelp" class="form-text text-muted">Nunca compartiremos su correo electrónico con nadie más.</small>
+        </div>
+
+        <h5 class="my-4">Preguntas</h5>
+      
+
+        @foreach (var item in Model.Item1.Questions)
+        {
+    <div class="mb-4">
+        <div class="mb-3">@item.Title</div>
+        @foreach (var item2 in item.Options)
+        {
+            <div class="pl-2 mb-1">
+              
+            </div>
+        }
+
+    </div>
+        }
+
+        <div class="mt-3">
+            <a class="btn btn-outline-danger" asp-controller="Home" asp-action="Index">Cancelar</a>
+            <button type="submit" class="btn btn-primary">Guardar Respuestas</button>
+        </div>
+    </form>
+</div>

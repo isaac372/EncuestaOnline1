@@ -1,0 +1,138 @@
+﻿@model IEnumerable<EncuestaOnline.Models.Surveys>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2></h2>
+<button class="btn btn-primary" data-toggle="modal" data-target="#createModal">Create Encuesta</button>
+<p />
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedAt)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedAt)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Detalle", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Eliminar", "Delete", new { id = item.Id })
+                <button class="btn btn-outline-success btn-sm share-button" data-toggle="modal" data-target="#shareModal" onclick="shareSurvey(@item.Id)">Compartir</button>
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Create Encuesta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label for="numberOfQuestions">Numero de preguntas : </label>
+                        <input type="number" max="15" min="1" value="2" id="numberOfQuestions" class="form-control" placeholder="10">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label for="numberOfOptions">Numero de opciones: </label>
+                        <input type="number" max="10" min="1" value="2" id="numberOfOptions" class="form-control" placeholder="5">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary create-button">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="shareModalLabel">Compartir encuesta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control share-modal-input" aria-describedby="button-addon2" disabled>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary share-modal-button" type="button" id="button-addon2">Copy</button>
+                    </div>
+                </div>
+                <p class="copied-text"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+    <script>
+        $('.create-button').on('click', function() {
+            var questions = $('#numberOfQuestions').val();
+            var options = $('#numberOfOptions').val();
+            var url = "/Surveys/Create?NumberOfQuestions=" + questions + "&NumberOfOptions=" + options;
+            window.location.href = url;
+        });
+
+        function shareSurvey(id) {
+            debugger
+            $('.share-modal-input').val("@Url.Action("Answer", "Surveys", null, this.Request.Url.ToString())" + "/" + id);
+
+
+            $('.share-modal-button').attr('data-clipboard-text', $('.share-modal-input').val());
+
+            var clipboard = new ClipboardJS('.share-modal-button', {
+                container: document.getElementById('shareModal')
+            });
+            clipboard.on('success', function () {
+                $('.copied-text').html('Copied!');
+            });
+        }
+
+        $('#shareModal').on('hidden.bs.modal', function () {
+            $('.copied-text').html('');
+        });
+    </script>
+}
